@@ -1,6 +1,6 @@
 <?php
 
-$dtInicio = '2020-11-09 00:00:00';
+$dtInicio = '2020-12-01 00:00:00';
 $dtFim = '2021-01-01 00:00:00';
 
 $feriados = [
@@ -19,6 +19,9 @@ $horasExtras = [
     strtotime('2020-10-28') => ['H' => '0', 'i' => '50'],
     strtotime('2020-11-03') => ['H' => '0', 'i' => '50'],
     strtotime('2020-12-01') => ['H' => '3', 'i' => '50'],
+    strtotime('2020-12-14') => ['H' => '1', 'i' => '10'],
+    strtotime('2020-12-15') => ['H' => '1', 'i' => '02'],
+    strtotime('2020-12-16') => ['H' => '1', 'i' => '59']
 ];
 
 $tsInicio = strtotime($dtInicio);
@@ -52,9 +55,9 @@ while ($tsInicio < $tsFim) {
     $diaIgualFeriado = (count($feriados) && in_array(date('Y-m-d', $tsInicio), $feriados));
 
     $diferenca1 = $sHora2 - $sHora1;
-    $diferenca2 = ($oitoHoras - ($tsInicio + $diferenca1)) . '<br>';
-    $sHora4 = (int)$sHora3 + (int)$diferenca2 + (!empty($horasExtras[$tsInicio]) ? mktime($horasExtras[$tsInicio]['H'],
-        $horasExtras[$tsInicio]['i'], 0, date('m', $tsInicio), date('d', $tsInicio), date('Y', $tsInicio)) : 0);
+    $diferenca2 = ($oitoHoras - ($tsInicio + $diferenca1));
+    $sHora4 = (int)$sHora3 + (int)$diferenca2 + (!empty($horasExtras[$tsInicio]) ? $horasExtras[$tsInicio]['H'] * 3600 +
+        $horasExtras[$tsInicio]['i'] * 60 : 0);
 
     if (!$diaIgualFinalSemana && !$diaIgualFeriado) {
         echo ($sDiaSemana == 'Mon' ? '<br />' : '') . date('d/m/Y', $tsInicio) . ' - ' .
